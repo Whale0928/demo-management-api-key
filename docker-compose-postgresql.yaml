@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: 'generic-postgres'
+    restart: always
+    environment:
+      - 'POSTGRES_DB=postgres'
+      - 'POSTGRES_PASSWORD=mypassword'
+      - 'POSTGRES_USER=myuser'
+    ports:
+      - '33304:5432'
