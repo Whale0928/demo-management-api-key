@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8080
   servlet:
     encoding:
       charset: UTF-8
@@ -11,6 +11,6 @@ spring:
   # DB properties
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:33304/postgres?currentSchema=public&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:postgresql://1.227.241.137:33304/postgres?currentSchema=public&useSSL=false&allowPublicKeyRetrieval=true
     username: ${DB_USER:myuser}
     password: ${DB_PASSWORD:mypassword}
