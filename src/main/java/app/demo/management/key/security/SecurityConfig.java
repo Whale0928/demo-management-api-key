@@ -1,11 +1,13 @@
 package app.demo.management.key.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -23,24 +25,28 @@ public class SecurityConfig {
 
     private final AuthenticationService authenticationService;
 
+    private static void customize(SessionManagementConfigurer<HttpSecurity> httpSecuritySessionManagementConfigurer) {
+        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .formLogin(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(
-                        httpSecuritySessionManagementConfigurer
-                                -> httpSecuritySessionManagementConfigurer
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(SecurityConfig::customize)
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry
                                 -> authorizationManagerRequestMatcherRegistry
-                                .requestMatchers("/issued/**").permitAll()
+                                .requestMatchers(PathRequest.toH2Console()).permitAll()
+                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                                .requestMatchers("/jwt/**").permitAll()
+                                .requestMatchers("/").permitAll()
                                 .requestMatchers("/**").permitAll()// 개발 단계에서 토큰 발급 관련 정보를 위해 임시 허용
                         //.requestMatchers("/**").authenticated()
                 )
-                //.addFilterBefore(new AuthenticationFilter(authenticationService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AuthenticationFilter(authenticationService), UsernamePasswordAuthenticationFilter.class)
                 //.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .build();
     }
@@ -61,4 +67,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 설정 적용
         return source;
     }
+
 }
