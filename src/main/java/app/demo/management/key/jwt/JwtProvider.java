@@ -12,16 +12,13 @@ import java.util.Map;
 @Component
 public class JwtProvider {
     private final SecretKey key;
-    private final JwtConfig jwtConfig;
 
     public JwtProvider(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
         byte[] keyBytes = jwtConfig.getSecret().getBytes();
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String createToken(String email, TokenType tokenType) {
-        Long expirationTime = jwtConfig.getExpirationTime();
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", email);
         claims.put("type", tokenType.getValue());
@@ -30,7 +27,6 @@ public class JwtProvider {
                 .claims(claims)
                 .subject(tokenType.getSubject())
                 .issuedAt(new Date(now))
-                .expiration(new Date(now + expirationTime))
                 .signWith(key)
                 .compact();
     }
