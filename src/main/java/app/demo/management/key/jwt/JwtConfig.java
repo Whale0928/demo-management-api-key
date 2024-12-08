@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Configuration;
 
-@Getter
 @Setter
+@Getter
 @Configuration
 @ConfigurationPropertiesScan
 @ConfigurationProperties(prefix = "jwt")

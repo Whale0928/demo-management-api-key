@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -18,15 +17,18 @@ public class JwtProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(String email, TokenType tokenType) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("email", email);
-        claims.put("type", tokenType.getValue());
-        long now = System.currentTimeMillis();
+    public String createToken(String referer, String email, TokenType tokenType) {
+        Map<String, Object> claims = Map.of(
+                "email", email,
+                "level", tokenType.getLevel(),
+                "authority", tokenType.getAuthority(),
+                "description", tokenType.getDescription()
+        );
+
         return Jwts.builder()
                 .claims(claims)
-                .subject(tokenType.getSubject())
-                .issuedAt(new Date(now))
+                .subject(referer)
+                .issuedAt(new Date(System.currentTimeMillis()))
                 .signWith(key)
                 .compact();
     }
