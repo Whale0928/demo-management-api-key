@@ -37,9 +37,10 @@ public class SecurityConfig {
                         authorizationManagerRequestMatcherRegistry
                                 -> authorizationManagerRequestMatcherRegistry
                                 .requestMatchers("/issued/**").permitAll()
-                                .requestMatchers("/**").authenticated()
+                                .requestMatchers("/**").permitAll()// 개발 단계에서 토큰 발급 관련 정보를 위해 임시 허용
+                        //.requestMatchers("/**").authenticated()
                 )
-                .addFilterBefore(new AuthenticationFilter(authenticationService), UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(new AuthenticationFilter(authenticationService), UsernamePasswordAuthenticationFilter.class)
                 //.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .build();
     }
@@ -52,7 +53,6 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*")); // 모든 origin 허용
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));

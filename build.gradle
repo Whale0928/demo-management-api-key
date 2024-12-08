@@ -25,6 +25,7 @@ repositories {
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
+    jjwt_version = '0.12.5'
 }
 
 dependencies {
@@ -43,6 +44,15 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    //jwt
+
+    implementation "io.jsonwebtoken:jjwt-api:${jjwt_version}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwt_version}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwt_version}"
+
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.11.0'
+
 }
 
 tasks.named('test') {

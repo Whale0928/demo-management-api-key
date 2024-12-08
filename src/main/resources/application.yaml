@@ -14,3 +14,8 @@ spring:
     url: jdbc:postgresql://1.227.241.137:33304/postgres?currentSchema=public&useSSL=false&allowPublicKeyRetrieval=true
     username: ${DB_USER:myuser}
     password: ${DB_PASSWORD:mypassword}
+
+jwt:
+  expiration-time: ${JWT_EXPIRATION_TIME:86400000} # 1 day
+  refresh-expiration: ${JWT_REFRESH_EXPIRATION_TIME:2592000000} # 30 days
+  secret: ${JWT_SECRET:90bf33c9c3576793ee92dc07563b621d}
