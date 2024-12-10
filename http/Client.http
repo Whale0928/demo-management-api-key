@@ -1,0 +1,19 @@
+### Client 생성 요청
+POST http://localhost:8080/client/register
+Content-Type: application/json
+
+{
+  "name": "청와대 공식 키",
+  "email": "webmaster@president.go.kr",
+  "issuerInfo": "청와대",
+  "allowedIps": [
+    "127.0.0.1",
+    "1.227.0.0.1",
+    "242.101.0.1"
+  ]
+}
+
+### Client 조회
+@email = webmaster@president.go.kr
+GET http://localhost:8080/client/{{email}}
+X-API-KEY: eyJhbGciOiJIUzI1NiJ9.eyJkZXNjcmlwdGlvbiI6IuydvOyLnOyggSDqtoztlZwg7ZeI7JqpIiwibGV2ZWwiOjIsImF1dGhvcml0eSI6IlRFTVBPUkFSWSIsInR5cGUiOiJURU1QT1JBUlkiLCJlbWFpbCI6IndlYm1hc3RlckBwcmVzaWRlbnQuZ28ua3IiLCJzdWIiOiLssq3smYDrjIAiLCJpYXQiOjE3MzM4NDE0MDh9.Ovc4AOJxr3D9uqMPx3Joq211nAt6SecrvDFsIncFKfQ

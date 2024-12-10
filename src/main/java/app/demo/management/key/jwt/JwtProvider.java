@@ -20,6 +20,7 @@ public class JwtProvider {
     public String createToken(String referer, String email, TokenType tokenType) {
         Map<String, Object> claims = Map.of(
                 "email", email,
+                "type", tokenType,
                 "level", tokenType.getLevel(),
                 "authority", tokenType.getAuthority(),
                 "description", tokenType.getDescription()

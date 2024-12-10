@@ -64,17 +64,16 @@ public class JwtTokenDecoder {
     /**
      * 토큰에서 email을 추출한다.
      */
-    public TokenType extractEmail(String token) {
-        Integer type = extractClaim(token, claims -> claims.get("email", Integer.class));
-        return TokenType.fromValue(type);
+    public String extractEmail(String token) {
+        return extractClaim(token, claims -> claims.get("email", String.class));
     }
 
     /**
      * 토큰에서 TokenType을 추출한다.
      */
     public TokenType extractTokenType(String token) {
-        Integer type = extractClaim(token, claims -> claims.get("type", Integer.class));
-        return TokenType.fromValue(type);
+        String type = extractClaim(token, claims -> claims.get("type", String.class));
+        return TokenType.valueOf(type);
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {

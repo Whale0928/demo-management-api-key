@@ -11,4 +11,12 @@ public enum PermissionsType {
     DELETE("삭제");
 
     private final String description;
+
+    public static PermissionsType[] defaultPermissions() {
+        return new PermissionsType[]{READ};
+    }
+
+    public static PermissionsType[] allPermissions() {
+        return new PermissionsType[]{READ, WRITE, DELETE};
+    }
 }

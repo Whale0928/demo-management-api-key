@@ -15,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 @RequiredArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
@@ -46,11 +45,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
-        if (PathRequest.toStaticResources().atCommonLocations().matches(request)) return true;
-        String path = request.getRequestURI();
-        List<String> excludePath = List.of("/jwt", "/page", "/h2-console", "/swagger-ui", "/v3/api-docs");
-        return excludePath
-                .stream()
-                .anyMatch(path::contains);
+        return PathRequest.toStaticResources().atCommonLocations().matches(request) || ExcludePath.isExcluded(request.getContextPath());
     }
 }
