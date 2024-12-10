@@ -3,14 +3,15 @@ server:
   servlet:
     encoding:
       charset: UTF-8
+
 spring:
   application:
     name: api-key-management-demo
   datasource:
-    driver-class-name: org.h2.Driver
-    url: ${DB_URL:jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
-    username: ${DB_USER:sa}
-    password: ${DB_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DB_USER:local_postgres}
+    password: ${DB_PASSWORD:local_postgres}
 
   security:
     user:
@@ -18,23 +19,30 @@ spring:
       password: password
 
   jpa:
-    defer-datasource-initialization: true
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
-    show-sql: true
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
-  sql:
-    init:
-      username: ${DB_USER:sa}
-      password: ${DB_PASSWORD:}
-      schema-locations: file:db/schema.sql
-      #data-locations: file:db/data.sql
+  sleuth:
+    jdbc:
+      p6spy:
+        tracing:
+          include-parameter-values: true
 
 jwt:
   secret: ${JWT_SECRET:90bf33c9c3576793ee92dc07563b621d}
+
+# p6spy 설정 추가
+decorator:
+  datasource:
+    p6spy:
+      enable: true
+      enable-logging: true
+      multiline: true
+      logging: slf4j
+
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: off
+    org.hibernate.type.descriptor.sql.BasicBinder: off
+    p6spy: debug

@@ -3,10 +3,11 @@ services:
   postgres:
     image: 'postgres:latest'
     container_name: 'generic-postgres'
-    restart: always
     environment:
       - 'POSTGRES_DB=postgres'
-      - 'POSTGRES_PASSWORD=mypassword'
-      - 'POSTGRES_USER=myuser'
+      - 'POSTGRES_PASSWORD=local_postgres'
+      - 'POSTGRES_USER=local_postgres'
+    volumes:
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
-      - '33304:5432'
+      - '5432:5432'

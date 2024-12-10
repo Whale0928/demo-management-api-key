@@ -39,7 +39,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry
                                 -> authorizationManagerRequestMatcherRegistry
-                                .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/page/**").permitAll()

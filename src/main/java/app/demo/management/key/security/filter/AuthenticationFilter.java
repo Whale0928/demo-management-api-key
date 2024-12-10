@@ -46,7 +46,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
-        if (PathRequest.toH2Console().matches(request)) return true;
         if (PathRequest.toStaticResources().atCommonLocations().matches(request)) return true;
         String path = request.getRequestURI();
         List<String> excludePath = List.of("/jwt", "/page", "/h2-console", "/swagger-ui", "/v3/api-docs");
