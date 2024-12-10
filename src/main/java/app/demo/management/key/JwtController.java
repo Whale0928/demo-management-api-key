@@ -19,10 +19,12 @@ public class JwtController {
     private final JwtTokenDecoder tokenDecoder;
 
     @GetMapping("/create")
-    public ResponseEntity<?> getJwt() {
-        final String referer = "외부의 클라이언트";
-        final String mail = "key-manager@email.com";
-        final String token = tokenProvider.createToken(referer, mail, TokenType.FULL);
+    public ResponseEntity<?> getJwt(
+            @RequestParam String referer,
+            @RequestParam String email,
+            @RequestParam TokenType tokenType
+    ) {
+        final String token = tokenProvider.createToken(referer, email, tokenType);
         return ResponseEntity.ok(token);
     }
 

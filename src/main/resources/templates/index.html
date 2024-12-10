@@ -10,7 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            padding-top: 60px;
+            padding-top: 70px;
             background-color: #f8f9fa;
         }
 
@@ -20,10 +20,13 @@
 
         .section-title {
             margin-bottom: 30px;
+            text-align: center;
+            color: #0d6efd;
         }
 
         .card {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: none;
         }
 
         .btn-custom {
@@ -34,6 +37,15 @@
         .btn-custom:hover {
             background-color: #0b5ed7;
             color: #fff;
+        }
+
+        footer {
+            padding: 20px 0;
+            background-color: #343a40;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
     </style>
 </head>
@@ -49,66 +61,113 @@
 <!-- 컨테이너 -->
 <div class="container">
 
-    <!-- 섹션 1: JWT 토큰 발급 -->
+    <!-- 공통 카드 템플릿 -->
+    <template id="card-template">
+        <div class="section">
+            <h2 class="section-title"></h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form>
+                                <!-- 폼 필드가 삽입될 영역 -->
+                                <div class="mb-3">
+                                    <label class="form-label"></label>
+                                    <!-- 입력 필드 -->
+                                </div>
+                                <button class="btn btn-custom" type="submit"></button>
+                            </form>
+                            <div class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 섹션 1: JWT 토큰 발급 받기 -->
     <div class="section">
-        <h2 class="section-title">1. JWT 토큰 발급</h2>
-        <div class="card">
-            <div class="card-body">
-                <form id="create-jwt-form">
-                    <div class="mb-3">
-                        <label class="form-label" for="referer">Referer</label>
-                        <input class="form-control" id="referer" placeholder="Referer를 입력하세요" required type="text">
+        <h2 class="section-title">1. JWT 토큰 발급 받기</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="create-jwt-form">
+                            <div class="mb-3">
+                                <label class="form-label" for="referer">Referer</label>
+                                <input class="form-control" id="referer" placeholder="Referer를 입력하세요" required
+                                       type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="email">이메일</label>
+                                <input class="form-control" id="email" placeholder="이메일을 입력하세요" required type="email">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="token-type">토큰 타입</label>
+                                <select class="form-select" id="token-type" required>
+                                    <option value="FULL">Full</option>
+                                    <option value="LIMITED">Limited</option>
+                                    <option value="TEMPORARY">Temporary</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-custom" type="submit">토큰 발급 받기</button>
+                        </form>
+                        <div class="mt-3" id="create-jwt-result"></div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="email">이메일</label>
-                        <input class="form-control" id="email" placeholder="이메일을 입력하세요" required type="email">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="token-type">토큰 타입</label>
-                        <select class="form-select" id="token-type" required>
-                            <option value="FULL">Full</option>
-                            <option value="LIMITED">Limited</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-custom" type="submit">토큰 발급 받기</button>
-                </form>
-                <div class="mt-3" id="create-jwt-result"></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 섹션 2: 토큰 디코드 -->
-    <div class="section">
-        <h2 class="section-title">2. 토큰 디코드</h2>
-        <div class="card">
-            <div class="card-body">
-                <form id="decode-jwt-form">
-                    <div class="mb-3">
-                        <label class="form-label" for="decode-token">JWT 토큰</label>
-                        <textarea class="form-control" id="decode-token" placeholder="디코드할 JWT 토큰을 입력하세요" required
-                                  rows="3"></textarea>
+    <!-- 섹션 2: 토큰 디코드하기 -->
+    <div class="section bg-light">
+        <h2 class="section-title">2. 토큰 디코드하기</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="decode-jwt-form">
+                            <div class="mb-3">
+                                <label class="form-label" for="decode-token">JWT 토큰</label>
+                                <textarea class="form-control" id="decode-token" placeholder="디코드할 JWT 토큰을 입력하세요"
+                                          required rows="3"></textarea>
+                            </div>
+                            <button class="btn btn-custom" type="submit">토큰 디코드</button>
+                        </form>
+                        <div class="mt-3" id="decode-jwt-result"></div>
                     </div>
-                    <button class="btn btn-custom" type="submit">토큰 디코드</button>
-                </form>
-                <div class="mt-3" id="decode-jwt-result"></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 섹션 3: /test 엔드포인트 요청 -->
+    <!-- 섹션 3: 토큰을 선택하여 엔드포인트 요청하기 -->
     <div class="section">
-        <h2 class="section-title">3. /test 엔드포인트 요청</h2>
-        <div class="card">
-            <div class="card-body">
-                <form id="test-endpoint-form">
-                    <div class="mb-3">
-                        <label class="form-label" for="test-token">JWT 토큰</label>
-                        <textarea class="form-control" id="test-token" placeholder="요청에 사용할 JWT 토큰을 입력하세요" required
-                                  rows="3"></textarea>
+        <h2 class="section-title">3. 토큰을 선택하여 엔드포인트 요청하기</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="request-endpoint-form">
+                            <div class="mb-3">
+                                <label class="form-label" for="select-endpoint">요청할 엔드포인트 선택</label>
+                                <select class="form-select" id="select-endpoint" required>
+                                    <option disabled selected value="">엔드포인트를 선택하세요</option>
+                                    <option value="/full">Full</option>
+                                    <option value="/limited">Limited</option>
+                                    <option value="/temporary">Temporary</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="request-token">JWT 토큰</label>
+                                <textarea class="form-control" id="request-token" placeholder="요청에 사용할 JWT 토큰을 입력하세요"
+                                          required rows="3"></textarea>
+                            </div>
+                            <button class="btn btn-custom" type="submit">요청 보내기</button>
+                        </form>
+                        <div class="mt-3" id="request-endpoint-result"></div>
                     </div>
-                    <button class="btn btn-custom" type="submit">/test 요청 보내기</button>
-                </form>
-                <div class="mt-3" id="test-endpoint-result"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -116,8 +175,8 @@
 </div>
 
 <!-- 푸터 -->
-<footer class="bg-light text-center text-lg-start">
-    <div class="text-center p-3">
+<footer>
+    <div class="text-center">
         © 2024 JWT 관리 데모
     </div>
 </footer>
@@ -140,14 +199,11 @@
             const createJwtResult = document.getElementById('create-jwt-result');
 
             try {
-                const response = await fetch('/jwt/create', {
-                    method: 'GET', // /jwt/create는 GET 요청
+                const response = await fetch(`/jwt/create?referer=${encodeURIComponent(referer)}&email=${encodeURIComponent(email)}&tokenType=${encodeURIComponent(tokenType)}`, {
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
-                    },
-                    // GET 요청은 본문(body)을 가지지 않으므로, 쿼리 파라미터로 전달해야 합니다.
-                    // 하지만 현재 /jwt/create는 별도의 파라미터를 받지 않으므로, 아래와 같이 쿼리 스트링을 수정해야 합니다.
-                    // 예시: /jwt/create?referer=...&email=...&tokenType=...
+                    }
                 });
 
                 if (!response.ok) {
@@ -182,15 +238,21 @@
             }
         });
 
-        // /test 엔드포인트 요청 폼 제출 이벤트
-        const testEndpointForm = document.getElementById('test-endpoint-form');
-        testEndpointForm.addEventListener('submit', async (e) => {
+        // 엔드포인트 요청 폼 제출 이벤트
+        const requestEndpointForm = document.getElementById('request-endpoint-form');
+        requestEndpointForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const token = document.getElementById('test-token').value;
-            const testEndpointResult = document.getElementById('test-endpoint-result');
+            const endpoint = document.getElementById('select-endpoint').value;
+            const token = document.getElementById('request-token').value;
+            const requestEndpointResult = document.getElementById('request-endpoint-result');
+
+            if (!endpoint) {
+                requestEndpointResult.innerHTML = `<div class="alert alert-warning">요청할 엔드포인트를 선택하세요.</div>`;
+                return;
+            }
 
             try {
-                const response = await fetch('/test', {
+                const response = await fetch(endpoint, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -199,14 +261,14 @@
 
                 if (!response.ok) {
                     const error = await response.text();
-                    testEndpointResult.innerHTML = `<div class="alert alert-danger">요청 실패: ${error}</div>`;
+                    requestEndpointResult.innerHTML = `<div class="alert alert-danger">요청 실패: ${error}</div>`;
                     return;
                 }
 
                 const data = await response.json();
-                testEndpointResult.innerHTML = `<div class="alert alert-success">응답: ${JSON.stringify(data)}</div>`;
+                requestEndpointResult.innerHTML = `<div class="alert alert-success">응답: ${JSON.stringify(data)}</div>`;
             } catch (error) {
-                testEndpointResult.innerHTML = `<div class="alert alert-danger">오류 발생: ${error.message}</div>`;
+                requestEndpointResult.innerHTML = `<div class="alert alert-danger">오류 발생: ${error.message}</div>`;
             }
         });
     });

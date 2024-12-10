@@ -1,5 +1,6 @@
-package app.demo.management.key.security;
+package app.demo.management.key.security.authentication;
 
+import app.demo.management.key.jwt.TokenType;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -12,13 +13,16 @@ import java.util.Collection;
 public class ApiKeyAuthentication extends AbstractAuthenticationToken {
 
     private final String apiKey;
+    private final TokenType details;
 
     public ApiKeyAuthentication(
             String apiKey,
-            Collection<? extends GrantedAuthority> authorities
+            Collection<? extends GrantedAuthority> authorities,
+            TokenType details
     ) {
         super(authorities);
         this.apiKey = apiKey;
+        this.details = details;
         setAuthenticated(true);
     }
 

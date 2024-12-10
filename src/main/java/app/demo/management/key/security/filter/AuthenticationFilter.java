@@ -1,5 +1,6 @@
-package app.demo.management.key.security;
+package app.demo.management.key.security.filter;
 
+import app.demo.management.key.security.authentication.AuthenticationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,12 +45,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
+    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
         if (PathRequest.toH2Console().matches(request)) return true;
         if (PathRequest.toStaticResources().atCommonLocations().matches(request)) return true;
-
         String path = request.getRequestURI();
-        List<String> excludePath = List.of("/jwt", "", "/");
+        List<String> excludePath = List.of("/jwt", "/page");
         return excludePath
                 .stream()
                 .anyMatch(path::contains);

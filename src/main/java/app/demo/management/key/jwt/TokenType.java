@@ -23,4 +23,12 @@ public enum TokenType {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("값에 대한 TokenType이 없습니다.: " + source));
     }
+
+    public String toString() {
+        return "TokenType{" +
+                "level=" + level +
+                ", authority='" + authority + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

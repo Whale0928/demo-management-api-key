@@ -1,5 +1,6 @@
-package app.demo.management.key.security;
+package app.demo.management.key.security.filter;
 
+import app.demo.management.key.security.authentication.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -41,10 +42,9 @@ public class SecurityConfig {
                                 -> authorizationManagerRequestMatcherRegistry
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                                .requestMatchers("/page/**").permitAll() //페이지
                                 .requestMatchers("/jwt/**").permitAll()
-                                .requestMatchers("/").permitAll()
-                                .requestMatchers("/**").permitAll()// 개발 단계에서 토큰 발급 관련 정보를 위해 임시 허용
-                        //.requestMatchers("/**").authenticated()
+                                .requestMatchers("/**").authenticated()
                 )
                 .addFilterBefore(new AuthenticationFilter(authenticationService), UsernamePasswordAuthenticationFilter.class)
                 //.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint))
