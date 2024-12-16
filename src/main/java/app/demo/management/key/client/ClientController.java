@@ -4,8 +4,6 @@ import app.demo.management.key.jwt.JwtProvider;
 import app.demo.management.key.jwt.TokenType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +29,10 @@ public class ClientController {
                         .email(request.email())
                         .apiKey(token)
                         .issuerInfo(request.issuerInfo())
-                        .permissions(PermissionsType.defaultPermissions())
+                        .permissions(
+                                request.tokenType() == null ?
+                                        PermissionsType.defaultPermissions() : PermissionsType.permissionsByTokenType(request.tokenType())
+                        )
                         .allowedIps(request.allowedIps().toArray(new String[0]))
                         .build()
         );
@@ -40,7 +41,6 @@ public class ClientController {
 
     @GetMapping("/{email}")
     public ResponseEntity<?> getClient(@PathVariable String email) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Client client = clientRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Client not found"));
         return ResponseEntity.ok(client);
