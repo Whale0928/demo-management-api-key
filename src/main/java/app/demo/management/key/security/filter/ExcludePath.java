@@ -9,10 +9,10 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 public enum ExcludePath {
-    JWT("/jwt"),
-    CLIENT("/client"),
-    PAGE("/page"),
-    H2_CONSOLE("/h2-console");
+    JWT("jwt"),
+    CLIENT("client"),
+    PAGE("page"),
+    H2_CONSOLE("h2-console");
 
     private final String path;
 
@@ -23,6 +23,8 @@ public enum ExcludePath {
     }
 
     public static boolean isExcluded(String path) {
-        return getPaths().stream().anyMatch(path::contains);
+        // 정확한 경로 매칭을 위해 시작 부분 체크
+        return getPaths().stream()
+                .anyMatch(excludePath -> path.startsWith("/" + excludePath));
     }
 }

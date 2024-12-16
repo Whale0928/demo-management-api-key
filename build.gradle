@@ -30,12 +30,12 @@ ext {
 
 dependencies {
 
+    //spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     //thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -44,8 +44,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     //  Database
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'org.postgresql:postgresql' //dev
     implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.8.2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     //p6spy
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'

@@ -12,6 +12,6 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
     @Query("SELECT c FROM Client c WHERE c.email = :email")
     Optional<Client> findByEmail(String email);
 
-    @Query("SELECT c FROM Client c WHERE c.email =:email")
-    Optional<Client> findByApiKey(String email);
+    @Query("SELECT c FROM Client c WHERE c.apiKey =:apiKey")
+    Optional<Client> findByApiKey(String apiKey);
 }

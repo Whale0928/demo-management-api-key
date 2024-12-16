@@ -65,4 +65,13 @@ public class Client {
     @Comment("발급일시")
     @Column(name = "issued_at")
     private LocalDateTime issuedAt = LocalDateTime.now();
+
+    @Builder.Default
+    @Comment("요청 횟수")
+    @Column(name = "request_count")
+    private Long requestCount = 0L;
+
+    public void incrementRequestCount(int count) {
+        this.requestCount += count;
+    }
 }

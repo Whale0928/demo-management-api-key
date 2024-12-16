@@ -13,7 +13,19 @@ Content-Type: application/json
   ]
 }
 
+> {%
+    client.global.set("apiKey", response.body.apiKey);
+    client.global.set("email", response.body.email);
+%}
+
 ### Client 조회
-@email = webmaster@president.go.kr
 GET http://localhost:8080/client/{{email}}
-X-API-KEY: eyJhbGciOiJIUzI1NiJ9.eyJkZXNjcmlwdGlvbiI6IuydvOyLnOyggSDqtoztlZwg7ZeI7JqpIiwibGV2ZWwiOjIsImF1dGhvcml0eSI6IlRFTVBPUkFSWSIsInR5cGUiOiJURU1QT1JBUlkiLCJlbWFpbCI6IndlYm1hc3RlckBwcmVzaWRlbnQuZ28ua3IiLCJzdWIiOiLssq3smYDrjIAiLCJpYXQiOjE3MzM4NDE0MDh9.Ovc4AOJxr3D9uqMPx3Joq211nAt6SecrvDFsIncFKfQ
+
+> {%
+    client.global.set("apiKey", response.body.apiKey);
+%}
+
+
+### 요청
+POST http://localhost:8080/api/v1/call/transfer
+X-API-KEY: {{apiKey}}

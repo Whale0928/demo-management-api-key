@@ -35,7 +35,7 @@ public class AuthenticationService {
         String email = tokenDecoder.extractEmail(apiKey);
         String role = ROLE_PREFIX + tokenType.getAuthority();
 
-        Client client = clientRepository.findByApiKey(email).orElseThrow(() -> new BadCredentialsException("not fount client email:" + email));
+        Client client = clientRepository.findByEmail(email).orElseThrow(() -> new BadCredentialsException("not fount client email:" + email));
 
         Principal principal = Principal.builder()
                 .email(client.getEmail())
